@@ -1,0 +1,4 @@
+/* pages/home/index.wxss */
+.play-icon{
+  margin-top: 50px;
+}
