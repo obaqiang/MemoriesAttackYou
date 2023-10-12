@@ -1,82 +1,36 @@
 // pages/home/index.js
+import {
+  Recorder
+} from './Recorder'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    isPlaying: true,
-    iconSize: "50px"
+    isPlaying: false,
+    iconSize: "50px",
+    recorder: null
   },
   handlePlay: function (e) {
     console.log(e)
+    if (this.data.isPlaying) {
+      console.log('停止')
+      this.recorder.stop()
+    } else {
+      console.log('开始')
+      this.recorder.start()
+    }
     this.setData({
       isPlaying: !this.data.isPlaying
     })
-    const {
-      target
-    } = e
+
 
   },
-  initRecordManager() {
-    let that = this
-    that.recorderManager = wx.getRecorderManager()
-    that.recorderManager.onStop((res) => {
-      that.setData({
-        tempFilePath: res.tempFilePath // 文件临时路径
-      })
-      console.log('获取到文件：' + that.data.tempFilePath)
-    })
-    this.recorderManager.onError((res) => {
-      console.log('录音失败了！')
-      //console.log(res)
-    })
-  },
-  //开始录音
-  start: function () {
-    this.recorderManager.start({
-      duration: 60000,
-      sampleRate: 16000, //采样率，有效值 8000/16000/44100
-      numberOfChannels: 1, //录音通道数，有效值 1/2
-      encodeBitRate: 96000, //编码码率
-      format: 'mp3', //音频格式，有效值 aac/mp3
-      frameSize: 50, //指定帧大小
-      audioSource: 'auto' //指定录音的音频输入源，可通过 wx.getAvailableAudioSources() 获取
-    })
-  },
-  //录音暂停
-  suspend: function () {
-    this.recorderManager.pause()
-  },
-  //继续录音
-  continue: function () {
-    this.recorderManager.resume()
-  },
-  //录音停止
-  stop: function () {
-    this.recorderManager.stop()
-  },
-  //播放录音
-  play: function () {
-    // 获取innerAudioContext实例
-    const innerAudioContext = wx.createInnerAudioContext()
-    // 是否自动播放
-    innerAudioContext.autoplay = true
-    // 设置音频文件的路径
-    innerAudioContext.src = this.data.tempFilePath;
-    // 播放音频文件
-    innerAudioContext.onPlay(() => {
-      console.log('开始播放')
-    });
-    // 监听音频播放错误事件
-    innerAudioContext.onError((res) => {
-      console.log(res.errMsg)
-      console.log(res.errCode)
-    })
-  },
+
 
   onLoad(options) {
-    this.initRecordManager()
+    this.recorder = new Recorder()
 
   },
 

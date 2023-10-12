@@ -2,11 +2,11 @@
 <view class="container">
 
 
-  <view hidden="{{!isPlaying}}">
+  <view hidden="{{isPlaying}}">
     <van-icon class="play-icon" size="{{iconSize}}" name="play-circle-o" bindtap="handlePlay" data-func="play"/>
   </view>
 
-  <view hidden="{{isPlaying}}">
+  <view hidden="{{!isPlaying}}">
     <van-icon class="play-icon" size="{{iconSize}}" name="pause-circle-o" bindtap="handlePlay" data-func="pause"/>
   </view>
 </view>
